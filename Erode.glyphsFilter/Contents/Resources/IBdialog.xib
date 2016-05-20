@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="Erode">
+            <connections>
+                <outlet property="dialog" destination="1" id="kzC-yw-bol"/>
+                <outlet property="segProbabilityUI" destination="cdn-7J-SiF" id="KNW-ZL-61Q"/>
+                <outlet property="segmentsUI" destination="vfg-c5-0Yw" id="FgD-6H-mcs"/>
+                <outlet property="spikinessUI" destination="7kH-GV-HiF" id="fOe-Ne-xr7"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="1">
+            <rect key="frame" x="0.0" y="0.0" width="329" height="157"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O8f-Or-SWt">
+                    <rect key="frame" x="18" y="90" width="175" height="45"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Number of segments" id="dPX-2j-6DZ">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7I4-Bv-R1K">
+                    <rect key="frame" x="18" y="68" width="148" height="31"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Probability of erosion" id="D3t-qo-4rr">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="la3-Fa-pTO">
+                    <rect key="frame" x="18" y="29" width="148" height="31"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Degree of erosion" id="r39-8Y-KfD">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vfg-c5-0Yw">
+                    <rect key="frame" x="173" y="107" width="136" height="30"/>
+                    <textFieldCell key="cell" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="19c-la-cXO">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdn-7J-SiF">
+                    <rect key="frame" x="171" y="72" width="140" height="27"/>
+                    <sliderCell key="cell" state="on" alignment="left" maxValue="1" doubleValue="0.20000000000000001" tickMarkPosition="below" numberOfTickMarks="20" sliderType="linear" id="OKz-Gq-5uV"/>
+                    <connections>
+                        <action selector="setValue:" target="-2" id="qSO-5e-VIw"/>
+                    </connections>
+                </slider>
+                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kH-GV-HiF">
+                    <rect key="frame" x="171" y="35" width="140" height="27"/>
+                    <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="10" sliderType="linear" id="J56-9B-6qm"/>
+                    <connections>
+                        <action selector="setValue:" target="-2" id="BWc-C0-fyg"/>
+                    </connections>
+                </slider>
+            </subviews>
+            <point key="canvasLocation" x="598.5" y="412.5"/>
+        </customView>
+    </objects>
+</document>
