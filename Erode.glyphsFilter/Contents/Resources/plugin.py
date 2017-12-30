@@ -50,6 +50,7 @@ class Erode(FilterWithDialog):
 			spikiness = Glyphs.defaults['org.simon-cozens.erode.spikiness']
 			segProbability = Glyphs.defaults['org.simon-cozens.erode.segProbability']
 
+		layer.beginChanges()
 		for p1 in layer.paths:
 			pathTime = p1.countOfNodes()
 
@@ -69,5 +70,7 @@ class Erode(FilterWithDialog):
 					pathTime -= 0.5/segments
 					p1.insertNodeWithPathTime_(pathTime)
 
+		layer.endChanges()
+		
 	def generateCustomParameter( self ):
 		return "%s; teeth:%s;" % (self.__class__.__name__, Glyphs.defaults['org.simon-cozens.erode.teeth'] )
