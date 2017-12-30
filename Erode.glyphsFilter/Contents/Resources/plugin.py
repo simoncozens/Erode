@@ -15,15 +15,17 @@ class Erode(FilterWithDialog):
 
 	def settings(self):
 		self.menuName = Glyphs.localize({'en': u'Erode'})
-
+		NSUserDefaults.standardUserDefaults().registerDefaults_({'org.simon-cozens.erode.segments':200,
+																 'org.simon-cozens.erode.segProbability': 0.6,
+																 'org.simon-cozens.erode.spikiness': 5})
 		# Load dialog from .nib (without .extension)
 		self.loadNib('IBdialog')
 
 	# On dialog show
 	def start(self):
-		self.segmentsUI.setStringValue_(Glyphs.defaults['org.simon-cozens.erode.segments'] or 200)
-		self.segProbabilityUI.setFloatValue_(Glyphs.defaults['org.simon-cozens.erode.segProbability'] or 0.6)
-		self.spikinessUI.setFloatValue_(Glyphs.defaults['org.simon-cozens.erode.spikiness'] or 5)
+		self.segmentsUI.setStringValue_(Glyphs.defaults['org.simon-cozens.erode.segments'])
+		self.segProbabilityUI.setFloatValue_(Glyphs.defaults['org.simon-cozens.erode.segProbability'])
+		self.spikinessUI.setFloatValue_(Glyphs.defaults['org.simon-cozens.erode.spikiness'])
 		self.segmentsUI.becomeFirstResponder()
 
 	# Action triggered by UI
