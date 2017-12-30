@@ -1,4 +1,6 @@
 # encoding: utf-8
+
+import objc
 from GlyphsApp.plugins import *
 from random import random
 
