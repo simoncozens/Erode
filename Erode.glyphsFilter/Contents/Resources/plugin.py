@@ -1,8 +1,10 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 import objc
-from GlyphsApp.plugins import *
 from random import random
+from GlyphsApp.plugins import *
+
 
 class Erode(FilterWithDialog):
 	# Definitions of IBOutlets
@@ -13,15 +15,17 @@ class Erode(FilterWithDialog):
 	segProbabilityUI = objc.IBOutlet()
 	spikinessUI = objc.IBOutlet()
 
+	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({'en': u'Erode'})
 		NSUserDefaults.standardUserDefaults().registerDefaults_({'org.simon-cozens.erode.segments':200,
 																 'org.simon-cozens.erode.segProbability': 0.6,
 																 'org.simon-cozens.erode.spikiness': 5})
 		# Load dialog from .nib (without .extension)
-		self.loadNib('IBdialog')
+		self.loadNib('IBdialog', __file__)
 
 	# On dialog show
+	@objc.python_method
 	def start(self):
 		self.segmentsUI.setStringValue_(Glyphs.defaults['org.simon-cozens.erode.segments'])
 		self.segProbabilityUI.setFloatValue_(Glyphs.defaults['org.simon-cozens.erode.segProbability'])
@@ -30,7 +34,7 @@ class Erode(FilterWithDialog):
 
 	# Action triggered by UI
 	@objc.IBAction
-	def setValue_( self, sender ):
+	def setValue_(self, sender):
 		# Store values coming in from dialog
 		Glyphs.defaults['org.simon-cozens.erode.segments'] = self.segmentsUI.stringValue()
 		Glyphs.defaults['org.simon-cozens.erode.segProbability'] = self.segProbabilityUI.floatValue()
@@ -39,9 +43,10 @@ class Erode(FilterWithDialog):
 		self.update()
 
 	# Actual filter
+	@objc.python_method
 	def filter(self, layer, inEditView, customParameters):
 		# Called on font export, get value from customParameters
-		if customParameters.has_key('segments'):
+		if 'segments' in customParameters:
 			segments = float(customParameters['segments'])
 			segProbability = customParameters['segProbability']
 			spikiness = customParameters['spikiness']
@@ -69,8 +74,8 @@ class Erode(FilterWithDialog):
 						n1.position = (n1.position.x - random()*spikiness*uv.y, n1.position.y + random() * spikiness*uv.x)
 					pathTime -= 0.5/segments
 					p1.insertNodeWithPathTime_(pathTime)
-
 		layer.endChanges()
-		
-	def generateCustomParameter( self ):
-		return "%s; teeth:%s;" % (self.__class__.__name__, Glyphs.defaults['org.simon-cozens.erode.teeth'] )
+
+	@objc.python_method
+	def generateCustomParameter(self):
+		return "%s; teeth:%s;" % (self.__class__.__name__, Glyphs.defaults['org.simon-cozens.erode.teeth'])
