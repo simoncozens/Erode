@@ -3,8 +3,10 @@ from __future__ import division, print_function, unicode_literals
 
 import objc
 from random import random
-from GlyphsApp.plugins import *
-
+from GlyphsApp import Glyphs
+from GlyphsApp.plugins import FilterWithDialog
+from AppKit import NSUserDefaults
+from Foundation import NSPoint
 
 class Erode(FilterWithDialog):
 	# Definitions of IBOutlets
@@ -18,9 +20,11 @@ class Erode(FilterWithDialog):
 	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({'en': u'Erode'})
-		NSUserDefaults.standardUserDefaults().registerDefaults_({'org.simon-cozens.erode.segments':200,
-																 'org.simon-cozens.erode.segProbability': 0.6,
-																 'org.simon-cozens.erode.spikiness': 5})
+		NSUserDefaults.standardUserDefaults().registerDefaults_({
+			'org.simon-cozens.erode.segments': 200,
+			'org.simon-cozens.erode.segProbability': 0.6,
+			'org.simon-cozens.erode.spikiness': 5
+		})
 		# Load dialog from .nib (without .extension)
 		self.loadNib('IBdialog', __file__)
 
@@ -57,25 +61,33 @@ class Erode(FilterWithDialog):
 
 		layer.beginChanges()
 		for p1 in layer.paths:
-			pathTime = p1.countOfNodes()
+			pathTime = len(p1.nodes)
 
 			while pathTime > 0:
-				pathTime -= 1.0/segments
+				pathTime -= 1.0 / segments
 				if random() < segProbability:
 					p1.insertNodeWithPathTime_(pathTime)
-					pathTime -= 0.5/segments
+					pathTime -= 0.5 / segments
 					n1 = p1.insertNodeWithPathTime_(pathTime)
 					if n1:
 						uv = p1.unitVectorAtNodeAtIndex_(p1.indexOfNode_(n1))
-						if uv.x > 0: uv.x =1 
-						else: uv.x = -1
-						if uv.y > 0: uv.y = 1
-						else: uv.x = -1
-						n1.position = (n1.position.x - random()*spikiness*uv.y, n1.position.y + random() * spikiness*uv.x)
-					pathTime -= 0.5/segments
+						if uv.x > 0:
+							uv.x = 1
+						else:
+							uv.x = -1
+						if uv.y > 0:
+							uv.y = 1
+						else:
+							uv.x = -1
+						n1.position = NSPoint(n1.position.x - random() * spikiness * uv.y, n1.position.y + random() * spikiness * uv.x)
+					pathTime -= 0.5 / segments
 					p1.insertNodeWithPathTime_(pathTime)
 		layer.endChanges()
 
 	@objc.python_method
 	def generateCustomParameter(self):
-		return "%s; teeth:%s;" % (self.__class__.__name__, Glyphs.defaults['org.simon-cozens.erode.teeth'])
+		segments = float(Glyphs.defaults['org.simon-cozens.erode.segments'])
+		spikiness = Glyphs.defaults['org.simon-cozens.erode.spikiness']
+		segProbability = Glyphs.defaults['org.simon-cozens.erode.segProbability']
+
+		return "%s; segments:%s; spikiness:%s; segProbability:%s" % (self.__class__.__name__, segments, spikiness, segProbability)
